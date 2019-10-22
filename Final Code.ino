@@ -1,24 +1,32 @@
 /* 
  *  Obstacle Avoidance Robot
  *  Organisation : Robotics Interest Group, NITC
+ *  Year 2018
  */
 
+// Define all pin
 #define trigPin 12
 #define echoPin 13
-#include <Servo.h> 
-Servo myservo;  
-int pos = 90;  
-float duration, distance, dist;  
 const int motorA1= 3;     
 const int motorA2= 5;       
 const int motorB1=8;    
 const int motorB2=10;     
 int enA = 7;
 int enB = 6;
+
+#include <Servo.h>                                          // library for using servo
+
+Servo myservo;                                              // Creating myservo object
+
+int pos = 90;                                               // define position in degrees
+float duration, distance, dist;  
+
  
  
  float distcal()
 {
+  // for calculating distance
+
   digitalWrite(trigPin, LOW); 
   delayMicroseconds(2);
   digitalWrite(trigPin, HIGH);
@@ -32,24 +40,22 @@ int enB = 6;
 
 void lookleft()
 {                                  
-    myservo.write(180);              
-   
+    myservo.write(180);                
 }
 
 void lookright()
-{
-   
-myservo.write(0); 
+{  
+    myservo.write(0); 
 }
 
 void lookstraight()
 {
-   
-myservo.write(90); 
+    myservo.write(90); 
 }
 
 
 void forward(){
+  // Moves robot forward
   digitalWrite(enA, HIGH);
   digitalWrite(enB, HIGH);
   digitalWrite(motorA1, LOW);
@@ -59,6 +65,7 @@ void forward(){
 }
 
 void left(){
+  // Moves robot left
   digitalWrite(enA, HIGH);
   digitalWrite(enB, HIGH);
   digitalWrite(motorA1, LOW);
@@ -69,6 +76,7 @@ void left(){
 }
 
 void right(){
+  // Moves robot right
   digitalWrite(enA, HIGH);
   digitalWrite(enB, HIGH);
   digitalWrite(motorA1, LOW);
@@ -79,6 +87,7 @@ void right(){
 }
 
 void uturn(){
+  // Moves robot uturn
   digitalWrite(enA, HIGH);
   digitalWrite(enB, HIGH);
   digitalWrite(motorA1, LOW);
@@ -89,6 +98,7 @@ void uturn(){
 }
 
 void stop(){
+  // Stops the robot
   digitalWrite(enA, LOW);
   digitalWrite(enB, LOW);
   digitalWrite(motorA1, LOW);
@@ -99,11 +109,14 @@ void stop(){
  
 void setup() 
 { 
-   myservo.write(pos);
+  myservo.write(pos);                                     // moves the servo to initial position 
   Serial.begin (9600);
+
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
-  myservo.attach(2);  
+
+  myservo.attach(2);                                      // Servo is in pin 2
+  
   pinMode(motorA1,OUTPUT);
   pinMode(motorA2,OUTPUT);
   pinMode(motorB1,OUTPUT);
@@ -131,10 +144,10 @@ void loop()
         dist=distcal();
         delay(1000);
         if(dist<=15)
-        {
-         lookstraight();
-         uturn();
-        }
+         {
+          lookstraight();
+          uturn();
+         }
         else
          {
           lookstraight();
@@ -144,14 +157,12 @@ void loop()
       else
        {
         right();
-        lookstraight();
-        
+        lookstraight();       
        }
-       } 
+      } 
    else
      {
       lookstraight();
       forward();
      }
-       
 }
